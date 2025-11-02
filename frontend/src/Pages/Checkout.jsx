@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosClient from "../api/axiosClient";
 import React, { useState } from "react";
 import { Container, Form, Button, Alert } from "react-bootstrap";
 import { useCart } from "../context/CartContext";
@@ -18,7 +18,7 @@ const Checkout = () => {
 
   async function checkoutDetails() {
     try {
-      const res = await axios.post("http://localhost:5000/api/checkout", {
+      const res = await axiosClient.post("/api/checkout", {
       name: formData.name.trim(),
       email: formData.email.trim(),
     });

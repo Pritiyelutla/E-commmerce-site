@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
+import axiosClient from "../api/axiosClient";
 
 const CartContext = createContext();
 
@@ -9,7 +9,7 @@ export const CartProvider = ({ children }) => {
 
   const fetchCart = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/cart");
+      const res = await axiosClient.get("/api/cart");
       setCart(res.data.detailedCart || []);
       setTotal(res.data.total || 0);
     } catch (err) {
@@ -19,7 +19,7 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = async (productId, qty = 1) => {
     try {
-      await axios.post("http://localhost:5000/api/cart", { productId, qty });
+      await axiosClient.post("/api/cart", { productId, qty });
       await fetchCart();
     } catch (err) {
       console.error("Error adding to cart:", err);
@@ -28,7 +28,7 @@ export const CartProvider = ({ children }) => {
 
   const removeFromCart = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/cart/${id}`);
+      await axiosClient.delete(`/api/cart/${id}`);
       await fetchCart();
     } catch (err) {
       console.error("Error removing item:", err);

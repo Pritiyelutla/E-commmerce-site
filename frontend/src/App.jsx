@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosClient from "./api/axiosClient";
 import { Container, Row, Col, Button, Table, Modal } from "react-bootstrap";
 import ProductCard from "./components/ProductCard";
 import { useCart } from "./context/CartContext";
@@ -16,7 +16,7 @@ const App = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/products");
+      const res = await axiosClient.get("/api/products");
       setProducts(res.data);
     } catch (err) {
       console.error("Error fetching products:", err.message);
