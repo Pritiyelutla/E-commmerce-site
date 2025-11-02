@@ -1,5 +1,6 @@
 import Cart from "../models/Cart.js";
 import Product from "../models/Product.js";
+import OrderDetails from "../models/OrderDetails.js";
 
 export const addToCart = async (req, res) =>{
     console.log("addToCart called with body:", req.body);
@@ -92,9 +93,12 @@ export const getCartAndTotal = async(req, res) =>{
   }
 };
 
+// how to make it post?
 export const checkout = async (req, res) => {
     try{
         //total
+        const {name, email} = req.body;
+
         const cartItems = await Cart.find();
 
         let totalAmount = 0;
@@ -107,6 +111,17 @@ export const checkout = async (req, res) => {
 
         //timestamp
         const timestamp = new Date().toISOString();
+        
+        // saving order details
+        const newOrder = new OrderDetails({
+            Name: name,
+            email: email,
+            products: cartItems,
+            totalAmount,
+            timestamp
+        });
+
+        await newOrder.save();
 
         //clearing cart after a checkout
         await Cart.deleteMany();

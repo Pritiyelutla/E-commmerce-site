@@ -35,12 +35,17 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  const clearCart = async () => {
+    setCart([]);
+    setTotal(0);
+  };
+
   useEffect(() => {
     fetchCart();
   }, []);
-
+  
   return (
-    <CartContext.Provider value={{ cart, total, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ cart, total, addToCart, removeFromCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );

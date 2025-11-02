@@ -81,6 +81,7 @@ How It Works
 
 Screenshots - 
 
-    1.frontend/screentshots/Products grid.png
-    2.checkout.png
-    3.checkout_success.png
+    1.frontend/screentshots/Project-Dashboard.png
+    2.frontend/screentshots/Project-Cart.png
+    3.frontend/screentshots/Project-Checkout-Success.png
+    4.frontend/screentshots/Project-Checkout.png 

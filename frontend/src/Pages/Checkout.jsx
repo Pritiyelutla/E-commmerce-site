@@ -1,9 +1,13 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Container, Form, Button, Alert } from "react-bootstrap";
+import { useCart } from "../context/CartContext";
 
 const Checkout = () => {
   const [formData, setFormData] = useState({ name: "", email: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+  const { cart, total, removeFromCart, clearCart } = useCart();
 
   const handleChange = (e) => {
     setFormData({
@@ -12,19 +16,38 @@ const Checkout = () => {
     });
   };
 
+  async function checkoutDetails() {
+    try {
+      const res = await axios.post("http://localhost:5000/api/checkout", {
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+    });
+
+    if(res.status === 200){
+      clearCart();
+      setSubmitted(true);
+    }else{
+      setError("Checkout failed. Please try again.");
+    }
+    }catch (err) {
+      setError("Checkout failed. Please try again.");
+    }
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (formData.name.trim() && formData.email.trim()) {
-      setSubmitted(true);
-    }
+    setError("");
+    checkoutDetails();
   };
 
   return (
     <Container className="mt-5" style={{ maxWidth: "500px" }}>
-      <h3 className="mb-4 text-center">Checkout</h3>
-
-      {submitted ? (
+      {error ? 
+      (
+        <Alert variant="error" className="text-center">
+          {error}
+        </Alert>
+      ) : submitted ? (
         <Alert variant="success" className="text-center">
           Checkout successful!
         </Alert>

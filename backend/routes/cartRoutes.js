@@ -9,6 +9,6 @@ router.delete("/cart/:id",removeFromCart);
 
 router.get("/cart", getCartAndTotal);
 
-router.get("/checkout", checkout);
+router.post("/checkout", checkout);
 
 export default router;
